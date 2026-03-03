@@ -1,0 +1,420 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Training: Local",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "--task",
+                "${input:task_name}",
+                "--num_envs",
+                "${input:num_envs}",
+                // "--max_iterations",
+                // "${input:max_iterations}",
+                // "--name",
+                // "${input:experiment_name}",
+                // "--run_name",
+                // "${input:run_name}",
+                // "--logger",
+                // "wandb",
+                // "--log_project_name",
+                // "isaac_t1_rl",
+                "${input:visualization}",
+            ],
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/rsl_rl/train.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Training: Local with Logging",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "--task",
+                "${input:task_name}",
+                "--num_envs",
+                "${input:num_envs}",
+                "--max_iterations",
+                "${input:max_iterations}",
+                "--name",
+                "${input:experiment_name}",
+                "--run_name",
+                "${input:run_name}",
+                "--logger",
+                "wandb",
+                "--log_project_name",
+                "${input:log_project_name}",
+                "--headless",
+                "--video",
+                "--video_length",
+                "500",
+                "--video_interval",
+                "5000"
+            ],
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/rsl_rl/train.py",
+            "console": "integratedTerminal",
+            "env": {
+                "WANDB_USERNAME": "diffusion_humanoid",
+                // "DISPLAY": ":0"
+            }
+        },
+        {
+            "name": "Training: Local Resume",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "--task",
+                "${input:task_name}",
+                "--num_envs",
+                "${input:num_envs}",
+                "--resume",
+                "--checkpoint",
+                "${input:checkpoint}",
+                // "${input:visualization}",
+            ],
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/rsl_rl/train.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Teleop",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "--task=T1-DP-Simply-Play-WalkToTarget-v0",
+                "--checkpoint=/home/gzy/Downloads/exported/model_16000.pt",
+                "--r_min=1.5",
+                "--r_max=2.5",
+                "--num_envs=1",
+                "--total_episodes_to_collect=200",
+                "--headless",
+            ],
+            "program": "${workspaceFolder}/../t1_dp_tasks/scripts/teleop.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "Teleop Whole-Body",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "--task=T1-Data-Box-Long-Horizon-v0",
+                "--leg_task=Isaac-Foot-Track-T1-Velocity-To-Foot-Track-Play-v0",
+                "--leg_checkpoint=${workspaceFolder}/../ckpts/low_level/loco/Data0116_0.64_0.01_20260117_0759_ice_h100x1_model_15000.pt",
+                "--arm_task=FK-Tracking-T1-Play-v0",
+                "--arm_checkpoint=${workspaceFolder}/../ckpts/low_level/arm/ee_accel1.4e-2_20260116_1618_pace_rtx6000x1_model_50000.pt",
+                "--num_envs=5",
+                "--total_episodes_to_collect=20",
+                // "--device",
+                // "cpu",
+                "--enable_cameras",
+                "--autonomous",
+            ],
+            "program": "${workspaceFolder}/../t1_dp_tasks/scripts/teleop_full_body.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "Teleop Upper-Body",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "--task=T1-Data-Door-Upper-v0",
+                "--arm_checkpoint=${workspaceFolder}/../t1_dp_tasks/source/t1_dp_locomotion_manager_based/policies/simple_VVFPos2_VVFOri1_WideDefau_PostureCurri0.01_PosLim4_20251117_0103_ICEH200_model_60000.pt",
+                "--num_envs=1",
+                "--enable_cameras",
+                "--device",
+                "cpu",
+                // "--total_episodes_to_collect=200",
+            ],
+            "program": "${workspaceFolder}/../t1_dp_tasks/scripts/teleop_upper_body_only.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "Distill: Local with Logging",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "--task",
+                "${input:task_name}",
+                "--entry_point",
+                "rsl_rl_distill_cfg_entry_point",
+                "--resume",
+                "--load_run",
+                "${input:distill_run}",
+                "--num_envs",
+                "${input:num_envs}",
+                "--max_iterations",
+                "${input:max_iterations}",
+                "--name",
+                "${input:experiment_name}",
+                "--run_name",
+                "${input:run_name}",
+                "--logger",
+                "wandb",
+                "--log_project_name",
+                "isaac_t1_distill",
+                "--headless"
+            ],
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/rsl_rl/train.py",
+            "console": "integratedTerminal",
+            "env": {
+                "WANDB_USERNAME": "diffusion_humanoid",
+                "DISPLAY": ":0"
+            }
+        },
+        {
+            "name": "Play: Local",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "--task",
+                "${input:play_task_name}",
+                "--checkpoint",
+                "${input:checkpoint}",
+                "--num_envs",
+                "${input:num_envs}",
+                "--device",
+                "cpu",
+            ],
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/rsl_rl/play.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Play Wandb: Local",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "--task",
+                "${input:play_task_name}",
+                "--wandb_run_id",
+                "${input:wandb_run_id}",
+                "--num_envs",
+                "${input:num_envs}",
+                // "--video",
+                // "--video_length",
+                // "1500",
+                "--wandb_entity",
+                "diffusion_humanoid",
+                "--wandb_project",
+                "${input:wandb_project}",
+                // "--enable_cameras",
+                "--headless",
+                // "--device",
+                // "cpu",
+            ],
+            "program": "${workspaceFolder}/scripts/reinforcement_learning/rsl_rl/play_wandb.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Training RL: PACE",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "${workspaceFolder}/docker/cluster/cluster_interface.sh job base --task ${input:task_name} --num_envs ${input:num_envs} --max_iterations ${input:max_iterations} --name ${input:experiment_name} --run_name ${input:run_name} --logger wandb --log_project_name ${input:log_project_name} --headless",
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "Resume RL: PACE",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "${workspaceFolder}/docker/cluster/cluster_interface.sh job base --task ${input:task_name} --resume --checkpoint ${input:checkpoint} --num_envs ${input:num_envs} --max_iterations ${input:max_iterations} --name ${input:experiment_name} --run_name ${input:run_name} --logger wandb --log_project_name ${input:log_project_name} --headless",
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "Training DPPT: PACE",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "${workspaceFolder}/docker/cluster/cluster_interface.sh job dpftcloud --config-name=train_diffusion_transformer_lowdim_workspace.yaml task=t1_task3_fullbody",
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "Eval DP: PACE",
+            "type": "node-terminal",
+                "request": "launch",
+                "command": "${workspaceFolder}/docker/cluster/cluster_interface.sh job dpftcloud --config-name=eval_T1_door",
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "Training DPFT: PACE",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "${workspaceFolder}/docker/cluster/cluster_interface.sh job dpftcloud --config-name=ft_T1_task2",
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "Distill: PACE",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "${workspaceFolder}/docker/cluster/cluster_interface.sh job base --task ${input:task_name} --entry_point rsl_rl_distill_cfg_entry_point --resume --load_run ${input:distill_run} --num_envs ${input:num_envs} --max_iterations ${input:max_iterations} --name ${input:experiment_name} --run_name ${input:run_name} --logger wandb --log_project_name isaac_t1_distill --headless",
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "Training: PACE Resume",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "${workspaceFolder}/docker/cluster/cluster_interface.sh job base --task ${input:task_name} --resume --load_run ${input:resume_run} --num_envs ${input:num_envs} --max_iterations ${input:max_iterations} --name ${input:experiment_name} --run_name ${input:run_name} --logger wandb --log_project_name ${input:log_project_name} --headless",
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "Pull Logs",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "${workspaceFolder}/docker/cluster/cluster_interface.sh log",
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "Reach GMR FK",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/sim2real/rl_policy/reach/reach_gmr_FK.py",
+            "args": [
+                "--config=sim2real/config/t1/t1_reach_gmr.yaml",
+                "--viewer"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "task_name",
+            "description": "Task name",
+            "default": "Isaac-Velocity-Flat-T1-v0",
+            "type": "pickString",
+            "options": [
+                "Isaac-Foot-Track-T1-v0",
+                "Isaac-Velocity-Flat-T1-v0",
+                "Isaac-Reach-T1-v0",
+                "BoosterGym-Flat-v0",
+                "BoosterGym-Rough-v0",
+                "GMR-Tracking-T1-v0",
+                "IK-Tracking-T1-v0",
+                "FK-Tracking-T1-v0",
+                "Isaac-Foot-Track-Stair-T1-v0",
+            ]
+        },
+        {
+            "id": "play_task_name",
+            "description": "Task name",
+            "default": "Isaac-Velocity-Flat-T1-Play-v0",
+            "type": "pickString",
+            "options": [
+                "Isaac-Foot-Track-T1-Play-v0",
+                "Isaac-Velocity-Flat-T1-Play-v0",
+                "Isaac-Reach-T1-Play-v0",
+                "BoosterGym-Flat-Play-v0",
+                "BoosterGym-Rough-Play-v0",
+                "GMR-Tracking-T1-Play-v0",
+                "IK-Tracking-T1-Play-v0",
+                "FK-Tracking-T1-Play-v0",
+                "Isaac-Foot-Track-T1-Velocity-To-Foot-Track-v0",
+                "Isaac-Foot-Track-Stair-T1-Play-v0",
+            ]
+        },
+        {
+            "id": "num_envs",
+            "description": "Number of environments",
+            "type": "pickString",
+            "options": [
+                "1",
+                "30",
+                "200",
+                "2048",
+                "4096",
+                "8192",
+                "10000",
+                "15000",
+            ]
+        },
+        {
+            "id": "max_iterations",
+            "description": "Maximum iterations",
+            "default": "30001",
+            "type": "promptString"
+        },
+        {
+            "id": "experiment_name",
+            "description": "Experiment name",
+            "default": "T1LocomotionFlat",
+            "type": "promptString"
+        },
+        {
+            "id": "run_name",
+            "description": "Run name",
+            "default": "pace_rtx6000x1",
+            "type": "pickString",
+            "options": [
+                "pace_rtx6000x1",
+                "ice_h100x1"
+            ]
+        },
+        {
+            "id": "visualization",
+            "description": "Which visualization setting?",
+            "default": "--headless",
+            "type": "pickString",
+            "options": [
+                "--headless",
+                "--enable_camera"
+            ]
+        },
+        {
+            "id": "cluster_profile",
+            "description": "Which profile?",
+            "default": "base",
+            "type": "pickString",
+            "options": [
+                "base",
+                "fasttd3"
+            ]
+        },
+        {
+            "id": "checkpoint",
+            "description": "Which .pt checkpoint for playing?",
+            "type": "promptString",
+        },
+        {
+            "id": "wandb_run_id",
+            "description": "Which wandb run id (on the wandb url) for playing?",
+            "type": "promptString",
+        },
+        {
+            "id": "resume_run",
+            "description": "Which run to resume?",
+            "type": "promptString",
+        },
+        {
+            "id": "distill_run",
+            "description": "Which run to distill?",
+            "type": "promptString",
+            "default": "T1Loco_Distill"
+        },
+        {
+            "id": "log_project_name",
+            "description": "Which project to log to?",
+            "type": "pickString",
+            "options": [
+                "isaac_t1_rl",
+                "isaac_t1_reach",
+                "isaac_t1_foot_track",
+                "gmr_hand_tracking",
+                "t1_stair",
+            ]
+        },
+        {
+            "id": "wandb_project",
+            "description": "Which project to play?",
+            "type": "pickString",
+            "options": [
+                "isaac_t1_rl",
+                "isaac_t1_reach",
+                "isaac_t1_foot_track",
+                "gmr_hand_tracking",
+                "t1_stair",
+            ]
+        }
+    ]
+}

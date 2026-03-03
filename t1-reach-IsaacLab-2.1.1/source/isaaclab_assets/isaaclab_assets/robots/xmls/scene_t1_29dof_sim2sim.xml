@@ -1,0 +1,58 @@
+<mujoco model="T1 Feet-Hand Flat Terrain Scene">
+  <include file="t1_29dof_feet_hand.xml" />
+  <option timestep="0.0005" integrator="RK4" solver="Newton" tolerance="1e-10" />
+
+  <statistic center="0.35 0.1 0.7" extent="0.85" meansize="0.04" />
+
+  <visual>
+    <headlight diffuse=".8 .8 .8" ambient=".2 .2 .2" specular="1 1 1" />
+    <rgba force="1 0 0 1" />
+    <global azimuth="-160" elevation="-20" />
+    <map force="0.01" />
+    <scale forcewidth="0.3" contactwidth="0.5" contactheight="0.2" />
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="1 1 1" rgb2="1 1 1" width="800" height="800" />
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="1 1 1" rgb2="1 1 1" markrgb="0 0 0"
+      width="300" height="300" />
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0" />
+  </asset>
+
+  <worldbody>
+    <geom name="floor" size="0 0 0.01" type="plane" material="groundplane" priority="1" friction="0.6" contype="1"
+      conaffinity="2" condim="3" />
+  </worldbody>
+
+  <keyframe>
+    <key name="home"
+      qpos="
+    0 0 0.665
+    1 0 0 0
+
+    0 0
+    0.2 -1.35 0 -0.5 0.0 0.0 0.0
+    0.2 1.35 0 0.5 0.0 0.0 0.0
+
+    0
+
+    -0.2 0 0 0.4 -0.25 0
+    -0.2 0 0 0.4 -0.25 0
+    "
+      ctrl="
+    0 0
+    0 0 0 0 0 0 0
+    0 0 0 0 0 0 0
+
+    0
+
+    0 0 0 0 0 0
+    0 0 0 0 0 0
+    " />
+    <!-- <key name="stair" time="0"
+      qpos="0 0 0.7 1 0 0 0 0 0 -0.2749 -1.409 -0.0454 -0.3632 0.0908 -0.2951 -0.3859 -0.0031 1.35935 0.0681 0.5675 0 0 0 0
+  0.10405 0 0 0.0702 -0.1807 -0.022 -1.54725 0 0 1.5327 0.0084 0.0088"
+      qvel="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+      ctrl="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" /> -->
+  </keyframe>
+</mujoco>
