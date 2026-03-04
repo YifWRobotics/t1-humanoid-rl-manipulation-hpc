@@ -1094,7 +1094,7 @@ class T1ReachCurriculumFK:
 
 @configclass
 class T1ReachEnvCfgFK(ReachEnvCfg):
-    scene: T1ReachSceneCfg = T1ReachSceneCfg(num_envs=4096, env_spacing=1.0)
+    scene: T1ReachSceneCfg = T1ReachSceneCfg(num_envs=4096, env_spacing=2.25)
     observations: T1ReachObservationsFK = T1ReachObservationsFK()
     commands: T1ReachCommandsFK = T1ReachCommandsFK()
     terminations: T1ReachTerminationsFK = T1ReachTerminationsFK()
@@ -1106,6 +1106,7 @@ class T1ReachEnvCfgFK(ReachEnvCfg):
     def __post_init__(self):
         # post init of parent
         super().__post_init__()
+        self.scene.env_spacing = 2.25
 
         # Simulation settings
         self.sim.dt = 0.01
@@ -1139,7 +1140,7 @@ class T1ReachEnvCfgFK_PLAY(T1ReachEnvCfgFK):
         super().__post_init__()
         # make a smaller scene for play
         self.scene.num_envs = 50
-        self.scene.env_spacing = 1.0
+        self.scene.env_spacing = 2.25
         # disable randomization for play
         self.observations.policy.enable_corruption = False
         self.curriculum = None
