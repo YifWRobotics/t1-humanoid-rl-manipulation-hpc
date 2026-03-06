@@ -38,7 +38,9 @@ git lfs install
 git lfs pull
 ```
 
-## 2. Start Training
+## 2. Training and Deployment
+
+### 2.1. Training
 
 ```bash
 chmod +x ~/scratch/t1-humanoid-rl-manipulation-hpc/run_isaaclab_reach.sh
@@ -58,6 +60,19 @@ chmod +x ~/scratch/t1-humanoid-rl-manipulation-hpc/run_isaaclab_reach.sh
   --video \
   --video_length 500 \
   --video_interval 5000 \
+  env.commands.both_hand_pose.rel_random=0.0 \
+  env.commands.both_hand_pose.rel_fk=1.0 \
+  env.commands.both_hand_pose.rel_default=0.0
+```
+
+### 2.2. Deployment
+
+Run this command on a PC, not a HPC cluster:
+```bash
+python scripts/reinforcement_learning/rsl_rl/play.py \
+  --task FK-Tracking-T1-Play-v0 \
+  --num_envs 4 \
+  --checkpoint /absolute/path/to/model_150000.pt \
   env.commands.both_hand_pose.rel_random=0.0 \
   env.commands.both_hand_pose.rel_fk=1.0 \
   env.commands.both_hand_pose.rel_default=0.0
