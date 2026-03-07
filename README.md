@@ -1,5 +1,7 @@
 # Train Manipulation for Booster T1
 
+YouTube demo: https://www.youtube.com/watch?v=mQGBrfK2c9Q
+
 ## 1. Set Up Isaac Lab 2.1.1 For PACE HPC Clusters
 
 ### 1.1. Recommended Directory Layout on PACE
